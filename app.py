@@ -20,7 +20,7 @@ def upload_to_dropbox(file_content, dropbox_path):
 
 def main():
     st.title("Cadastro de Novo Cliente")
-    st.image('Zeit-Bank---Verde.png', caption='www.zeitbank.com.br')
+    st.image('img.png', caption='www.zeitbank.com.br')
 
     if "submitted" not in st.session_state:
         st.session_state.submitted = False
