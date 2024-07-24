@@ -61,9 +61,10 @@ def cadastro_pessoa_fisica_maquinas():
     cpf = st.text_input("CPF", key="cpf_pf_mq")
     documento = st.selectbox("Documento", ["CNH", "RG", "CPF"], key="documento_pf_mq")
     arquivo_documento = st.file_uploader("Anexar Documento", type=["pdf", "jpg", "jpeg", "png"], key="arquivo_documento_pf_mq")
+    comprovante_residencia = st.file_uploader("Comprovante de Residência", type=["pdf", "jpg", "jpeg", "png"], key="comprovante_residencia_pf_ac")
 
     if st.button("Submeter Cadastro"):
-        salvar_dados(nome_completo, cpf, documento, arquivo_documento, None, None, None)
+        salvar_dados(nome_completo, cpf, documento, arquivo_documento, None, None, comprovante_residencia)
         st.session_state.submitted = True
         st.experimental_rerun()
 
@@ -104,6 +105,7 @@ def cadastro_pessoa_juridica_maquinas():
 
     razao_social = st.text_input("Razão Social", key="razao_social_pj_mq")
     cnpj = st.text_input("CNPJ", key="cnpj_pj_mq")
+    inscricao_estadual = st.text_input("Inscrição Estadual", key="inscricao_pj_mq")
     contrato_estatuto = st.selectbox("Contrato ou Estatuto da empresa", ["Empresário Individual", "EIRELI", "Sociedade Simples ou Limitada", "Sociedade Anônima (S.A)"], key="contrato_estatuto_pj_mq")
     arquivo_documento_empresa = st.file_uploader("Anexar Documento", type=["pdf", "jpg", "jpeg", "png"], key="arquivo_documento_empresa_pj_mq")
     comprovante_endereco_empresa = st.file_uploader("Comprovante de Endereço", type=["pdf", "jpg", "jpeg", "png"], key="comprovante_endereco_empresa_pj_mq")
@@ -116,7 +118,7 @@ def cadastro_pessoa_juridica_maquinas():
     arquivo_documento_representante = st.file_uploader("Anexar Documento", type=["pdf", "jpg", "jpeg", "png"], key="arquivo_documento_representante_pj_mq")
 
     if st.button("Submeter Cadastro"):
-        salvar_dados_juridica(razao_social, cnpj, contrato_estatuto, arquivo_documento_empresa, comprovante_endereco_empresa, documentacao_contabil, arquivos_contabeis, nome_representante, cpf_representante, documento_representante, arquivo_documento_representante)
+        salvar_dados_juridica(razao_social, cnpj, contrato_estatuto, arquivo_documento_empresa, comprovante_endereco_empresa, documentacao_contabil, arquivos_contabeis, nome_representante, cpf_representante, documento_representante, arquivo_documento_representante, inscricao_estadual)
         st.session_state.submitted = True
         st.experimental_rerun()
 
@@ -125,6 +127,7 @@ def cadastro_pessoa_juridica_conta():
 
     razao_social = st.text_input("Razão Social", key="razao_social_pj_ac")
     cnpj = st.text_input("CNPJ", key="cnpj_pj_ac")
+    inscricao_estadual = st.text_input("Inscrição Estadual", key="inscricao_pj_mq")
     contrato_estatuto = st.selectbox("Contrato ou Estatuto da empresa", ["Empresário Individual", "EIRELI", "Sociedade Simples ou Limitada", "Sociedade Anônima (S.A)"], key="contrato_estatuto_pj_ac")
     arquivo_documento_empresa = st.file_uploader("Anexar Documento", type=["pdf", "jpg", "jpeg", "png"], key="arquivo_documento_empresa_pj_ac")
     comprovante_endereco_empresa = st.file_uploader("Comprovante de Endereço", type=["pdf", "jpg", "jpeg", "png"], key="comprovante_endereco_empresa_pj_ac")
@@ -140,7 +143,7 @@ def cadastro_pessoa_juridica_conta():
     comprovante_residencia_representante = st.file_uploader("Comprovante de Residência", type=["pdf", "jpg", "jpeg", "png"], key="comprovante_residencia_representante_pj_ac")
 
     if st.button("Submeter Cadastro"):
-        salvar_dados_juridica(razao_social, cnpj, contrato_estatuto, arquivo_documento_empresa, comprovante_endereco_empresa, documentacao_contabil, arquivos_contabeis, nome_representante, cpf_representante, documento_representante, arquivo_documento_representante, selfie_sem_documento_representante, selfie_com_documento_representante, comprovante_residencia_representante)
+        salvar_dados_juridica(razao_social, cnpj, contrato_estatuto, arquivo_documento_empresa, comprovante_endereco_empresa, documentacao_contabil, arquivos_contabeis, nome_representante, cpf_representante, documento_representante, arquivo_documento_representante, selfie_sem_documento_representante, selfie_com_documento_representante, comprovante_residencia_representante, inscricao_estadual)
         st.session_state.submitted = True
         st.experimental_rerun()
 
@@ -149,6 +152,7 @@ def cadastro_pessoa_juridica_ambos():
 
     razao_social = st.text_input("Razão Social", key="razao_social_pj_ambos")
     cnpj = st.text_input("CNPJ", key="cnpj_pj_ambos")
+    inscricao_estadual = st.text_input("Inscrição Estadual", key="inscricao_pj_mq")
     contrato_estatuto = st.selectbox("Contrato ou Estatuto da empresa", ["Empresário Individual", "EIRELI", "Sociedade Simples ou Limitada", "Sociedade Anônima (S.A)"], key="contrato_estatuto_pj_ambos")
     arquivo_documento_empresa = st.file_uploader("Anexar Documento", type=["pdf", "jpg", "jpeg", "png"], key="arquivo_documento_empresa_pj_ambos")
     comprovante_endereco_empresa = st.file_uploader("Comprovante de Endereço", type=["pdf", "jpg", "jpeg", "png"], key="comprovante_endereco_empresa_pj_ambos")
@@ -164,7 +168,7 @@ def cadastro_pessoa_juridica_ambos():
     comprovante_residencia_representante = st.file_uploader("Comprovante de Residência", type=["pdf", "jpg", "jpeg", "png"], key="comprovante_residencia_representante_pj_ambos")
 
     if st.button("Submeter Cadastro"):
-        salvar_dados_juridica(razao_social, cnpj, contrato_estatuto, arquivo_documento_empresa, comprovante_endereco_empresa, documentacao_contabil, arquivos_contabeis, nome_representante, cpf_representante, documento_representante, arquivo_documento_representante, selfie_sem_documento_representante, selfie_com_documento_representante, comprovante_residencia_representante)
+        salvar_dados_juridica(razao_social, cnpj, contrato_estatuto, arquivo_documento_empresa, comprovante_endereco_empresa, documentacao_contabil, arquivos_contabeis, nome_representante, cpf_representante, documento_representante, arquivo_documento_representante, selfie_sem_documento_representante, selfie_com_documento_representante, comprovante_residencia_representante, inscricao_estadual)
         st.session_state.submitted = True
         st.experimental_rerun()
 
@@ -197,12 +201,13 @@ def salvar_dados(nome_completo, cpf, documento, arquivo_documento, selfie_sem_do
 
     st.success(f"Cadastro de {nome_completo} salvo com sucesso!")
 
-def salvar_dados_juridica(razao_social, cnpj, contrato_estatuto, arquivo_documento_empresa, comprovante_endereco_empresa, documentacao_contabil, arquivos_contabeis, nome_representante, cpf_representante, documento_representante, arquivo_documento_representante, selfie_sem_documento_representante=None, selfie_com_documento_representante=None, comprovante_residencia_representante=None):
+def salvar_dados_juridica(razao_social, cnpj, contrato_estatuto, arquivo_documento_empresa, comprovante_endereco_empresa, documentacao_contabil, arquivos_contabeis, nome_representante, cpf_representante, documento_representante, inscricao_estadual, arquivo_documento_representante=None, selfie_sem_documento_representante=None, selfie_com_documento_representante=None, comprovante_residencia_representante=None):
     folder_path = f"/{razao_social}"
 
     # Cria um arquivo de texto com as informações
     dados = (
         f"Razão Social: {razao_social}\nCNPJ: {cnpj}\n"
+        f"Inscrição Estadual: {inscricao_estadual}\n"
         f"Contrato ou Estatuto da empresa: {contrato_estatuto}\n"
         f"Documentação Contábil: {documentacao_contabil}\n"
         f"Nome Completo do Representante Legal: {nome_representante}\n"
