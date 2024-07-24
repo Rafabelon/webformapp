@@ -4,7 +4,7 @@ import os
 from io import BytesIO
 
 # Configurar a conexão com o Dropbox
-
+# Atualização
 def get_dropbox_client():
     token = st.secrets["dropbox"]["access_token"]
     return dropbox.Dropbox(token)
