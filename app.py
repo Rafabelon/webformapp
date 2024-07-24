@@ -157,7 +157,7 @@ def cadastro_pessoa_juridica_conta():
 
     razao_social = st.text_input("Razão Social", key="razao_social_pj_ac")
     cnpj = st.text_input("CNPJ", key="cnpj_pj_ac")
-    inscricao_estadual = st.text_input("Inscrição Estadual", key="inscricao_pj_mq")
+    inscricao_estadual = st.text_input("Inscrição Estadual", key="inscricao_pj_ac")
     contrato_estatuto = st.selectbox("Contrato ou Estatuto da empresa", ["Empresário Individual", "EIRELI", "Sociedade Simples ou Limitada", "Sociedade Anônima (S.A)"], key="contrato_estatuto_pj_ac")
     arquivo_documento_empresa = st.file_uploader("Anexar Documento", type=["pdf", "jpg", "jpeg", "png"], key="arquivo_documento_empresa_pj_ac")
     comprovante_endereco_empresa = st.file_uploader("Comprovante de Endereço", type=["pdf", "jpg", "jpeg", "png"], key="comprovante_endereco_empresa_pj_ac")
@@ -182,7 +182,7 @@ def cadastro_pessoa_juridica_ambos():
 
     razao_social = st.text_input("Razão Social", key="razao_social_pj_ambos")
     cnpj = st.text_input("CNPJ", key="cnpj_pj_ambos")
-    inscricao_estadual = st.text_input("Inscrição Estadual", key="inscricao_pj_mq")
+    inscricao_estadual = st.text_input("Inscrição Estadual", key="inscricao_pj_ambos")
     contrato_estatuto = st.selectbox("Contrato ou Estatuto da empresa", ["Empresário Individual", "EIRELI", "Sociedade Simples ou Limitada", "Sociedade Anônima (S.A)"], key="contrato_estatuto_pj_ambos")
     arquivo_documento_empresa = st.file_uploader("Anexar Documento", type=["pdf", "jpg", "jpeg", "png"], key="arquivo_documento_empresa_pj_ambos")
     comprovante_endereco_empresa = st.file_uploader("Comprovante de Endereço", type=["pdf", "jpg", "jpeg", "png"], key="comprovante_endereco_empresa_pj_ambos")
