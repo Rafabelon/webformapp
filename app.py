@@ -5,9 +5,39 @@ from io import BytesIO
 
 # Configurar a conexão com o Dropbox
 # Atualização
+
+def refresh_access_token():
+    refresh_token = st.secrets["dropbox"]["refresh_token"]
+    app_key = st.secrets["dropbox"]["app_key"]
+    app_secret = st.secrets["dropbox"]["app_secret"]
+    
+    token_url = "https://api.dropbox.com/oauth2/token"
+    data = {
+        "grant_type": "refresh_token",
+        "refresh_token": refresh_token,
+        "client_id": app_key,
+        "client_secret": app_secret
+    }
+    
+    response = requests.post(token_url, data=data)
+    if response.status_code != 200:
+        st.error("Failed to refresh access token")
+        st.stop()
+    
+    new_tokens = response.json()
+    
+    # Atualiza o token de acesso em st.secrets (em produção, você precisaria armazenar o novo token em um local seguro)
+    st.secrets["dropbox"]["access_token"] = new_tokens['access_token']
+    return new_tokens['access_token']
+
+# Função para autenticar no Dropbox
 def get_dropbox_client():
-    token = st.secrets["dropbox"]["access_token"]
-    return dropbox.Dropbox(token)
+    try:
+        token = st.secrets["dropbox"]["access_token"]
+        return dropbox.Dropbox(token)
+    except dropbox.exceptions.AuthError:
+        token = refresh_access_token()
+        return dropbox.Dropbox(token)
 
 dbx = get_dropbox_client()
 
