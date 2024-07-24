@@ -4,8 +4,12 @@ import os
 from io import BytesIO
 
 # Configurar a conexão com o Dropbox
-chave = st.secret["TOKEN"]["TOKEN_DE_ACESSO"]
-dbx = dropbox.Dropbox(chave)
+
+def get_dropbox_client():
+    token = st.secrets["dropbox"]["access_token"]
+    return dropbox.Dropbox(token)
+
+dbx = get_dropbox_client()
 
 def upload_to_dropbox(file_content, dropbox_path):
     try:
