@@ -207,7 +207,7 @@ def salvar_dados_juridica(razao_social, cnpj, contrato_estatuto, arquivo_documen
     # Cria um arquivo de texto com as informações
     dados = (
         f"Razão Social: {razao_social}\nCNPJ: {cnpj}\n"
-        f"Inscrição Estadual: {inscricao_estadual}\n"
+        f"Inscrição Estadual: {inscricao_estadual}\ninscrição Estadual: {inscricao_estadual}\n"
         f"Contrato ou Estatuto da empresa: {contrato_estatuto}\n"
         f"Documentação Contábil: {documentacao_contabil}\n"
         f"Nome Completo do Representante Legal: {nome_representante}\n"
