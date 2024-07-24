@@ -64,8 +64,8 @@ def cadastro_pessoa_fisica_maquinas():
 
     if st.button("Submeter Cadastro"):
         salvar_dados(nome_completo, cpf, documento, arquivo_documento, None, None, None)
-        st.session_state.submitted = False
-        #st.experimental_rerun()
+        st.session_state.submitted = True
+        st.experimental_rerun()
 
 def cadastro_pessoa_fisica_conta():
     st.header("Cadastro Pessoa Física - Abertura de Conta Digital")
