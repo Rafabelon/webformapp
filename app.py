@@ -9,7 +9,7 @@ def refresh_access_token():
     app_key = st.secrets["dropbox"]["app_key"]
     app_secret = st.secrets["dropbox"]["app_secret"]
     
-    token_url = "https://cadastrozeit.streamlit.app/"
+    token_url = "https://cadastrozeit.streamlit.app"
     data = {
         "grant_type": "refresh_token",
         "refresh_token": refresh_token,
@@ -19,18 +19,23 @@ def refresh_access_token():
     
     response = requests.post(token_url, data=data)
     if response.status_code != 200:
-        st.error("Failed to refresh access token")
+        st.error(f"Failed to refresh access token: {response.text}")
         st.stop()
     
-    new_tokens = response.json()
+    try:
+        new_tokens = response.json()
+    except ValueError:
+        st.error(f"Failed to parse access token response: {response.text}")
+        st.stop()
     
-    # Retorna o novo token de acesso #
+    # Atualiza o token de acesso em session_state
+    st.session_state.access_token = new_tokens['access_token']
     return new_tokens['access_token']
 
 # Função para autenticar no Dropbox
 def get_dropbox_client():
     if "access_token" not in st.session_state:
-        st.session_state.access_token = st.secrets["dropbox"].get("access_token", refresh_access_token())
+        st.session_state.access_token = refresh_access_token()
     
     try:
         return dropbox.Dropbox(st.session_state.access_token)
@@ -90,8 +95,8 @@ def cadastro_pessoa_fisica_maquinas():
 
     if st.button("Submeter Cadastro"):
         salvar_dados(nome_completo, cpf, documento, arquivo_documento, None, None, comprovante_residencia)
-        st.session_state.submitted = False
-        #st.experimental_rerun()
+        st.session_state.submitted = True
+        st.experimental_rerun()
 
 def cadastro_pessoa_fisica_conta():
     st.header("Cadastro Pessoa Física - Abertura de Conta Digital")
