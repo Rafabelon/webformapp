@@ -1,11 +1,9 @@
 import streamlit as st
 import dropbox
-import os
+import requests
 from io import BytesIO
 
-# Configurar a conexão com o Dropbox
-# Atualização
-
+# Função para atualizar o token de acesso
 def refresh_access_token():
     refresh_token = st.secrets["dropbox"]["refresh_token"]
     app_key = st.secrets["dropbox"]["app_key"]
@@ -26,8 +24,7 @@ def refresh_access_token():
     
     new_tokens = response.json()
     
-    # Atualiza o token de acesso em st.secrets (em produção, você precisaria armazenar o novo token em um local seguro)
-    st.secrets["dropbox"]["access_token"] = new_tokens['access_token']
+    # Retorna o novo token de acesso
     return new_tokens['access_token']
 
 # Função para autenticar no Dropbox
@@ -39,10 +36,9 @@ def get_dropbox_client():
         token = refresh_access_token()
         return dropbox.Dropbox(token)
 
-dbx = get_dropbox_client()
-
 def upload_to_dropbox(file_content, dropbox_path):
     try:
+        dbx = get_dropbox_client()
         dbx.files_upload(file_content, dropbox_path, mode=dropbox.files.WriteMode.overwrite)
         st.success(f"Arquivo salvo com sucesso em: {dropbox_path}")
     except Exception as e:
@@ -58,10 +54,7 @@ def main():
     if st.session_state.submitted:
         st.header("Obrigado! Entraremos em contato em breve.")
     else:
-        # Seleção do tipo de cadastro
         tipo_cadastro = st.selectbox("Selecione o tipo de cadastro", ["Cadastro Pessoa Física", "Cadastro Pessoa Jurídica"])
-
-        # Seleção do serviço
         tipo_servico = st.selectbox("Selecione o serviço", ["Abertura de Conta Digital", "Máquinas de Cartão", "Ambos"])
 
         if st.button("Iniciar Cadastro"):
