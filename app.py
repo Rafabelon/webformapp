@@ -9,7 +9,7 @@ def refresh_access_token():
     app_key = st.secrets["dropbox"]["app_key"]
     app_secret = st.secrets["dropbox"]["app_secret"]
     
-    token_url = "https://cadastrozeit.streamlit.app"
+    token_url = "https://cadastrozeit.streamlit.app/"
     data = {
         "grant_type": "refresh_token",
         "refresh_token": refresh_token,
