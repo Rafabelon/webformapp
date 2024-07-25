@@ -24,7 +24,7 @@ def refresh_access_token():
     
     new_tokens = response.json()
     
-    # Retorna o novo token de acesso
+    # Retorna o novo token de acesso #
     return new_tokens['access_token']
 
 # Função para autenticar no Dropbox
