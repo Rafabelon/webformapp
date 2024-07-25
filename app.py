@@ -29,12 +29,14 @@ def refresh_access_token():
 
 # Função para autenticar no Dropbox
 def get_dropbox_client():
+    if "access_token" not in st.session_state:
+        st.session_state.access_token = st.secrets["dropbox"].get("access_token", refresh_access_token())
+    
     try:
-        token = st.secrets["dropbox"]["access_token"]
-        return dropbox.Dropbox(token)
+        return dropbox.Dropbox(st.session_state.access_token)
     except dropbox.exceptions.AuthError:
-        token = refresh_access_token()
-        return dropbox.Dropbox(token)
+        st.session_state.access_token = refresh_access_token()
+        return dropbox.Dropbox(st.session_state.access_token)
 
 def upload_to_dropbox(file_content, dropbox_path):
     try:
@@ -134,14 +136,16 @@ def cadastro_pessoa_juridica_maquinas():
     comprovante_endereco_empresa = st.file_uploader("Comprovante de Endereço", type=["pdf", "jpg", "jpeg", "png"], key="comprovante_endereco_empresa_pj_mq")
     documentacao_contabil = st.selectbox("Documentação Contábil", ["Balanço", "DRE", "Faturamento"], key="documentacao_contabil_pj_mq")
     arquivos_contabeis = st.file_uploader("Anexar Documentos Contábeis", type=["pdf", "jpg", "jpeg", "png"], accept_multiple_files=True, key="arquivos_contabeis_pj_mq")
-    
     nome_representante = st.text_input("Nome Completo do Representante Legal", key="nome_representante_pj_mq")
     cpf_representante = st.text_input("CPF", key="cpf_representante_pj_mq")
     documento_representante = st.selectbox("Documento", ["CNH", "RG", "CPF"], key="documento_representante_pj_mq")
     arquivo_documento_representante = st.file_uploader("Anexar Documento", type=["pdf", "jpg", "jpeg", "png"], key="arquivo_documento_representante_pj_mq")
+    selfie_sem_documento_representante = st.file_uploader("Selfie sem Documento", type=["pdf", "jpg", "jpeg", "png"], key="selfie_sem_documento_representante_pj_mq")
+    selfie_com_documento_representante = st.file_uploader("Selfie com Documento", type=["pdf", "jpg", "jpeg", "png"], key="selfie_com_documento_representante_pj_mq")
+    comprovante_residencia_representante = st.file_uploader("Comprovante de Residência", type=["pdf", "jpg", "jpeg", "png"], key="comprovante_residencia_representante_pj_mq")
 
     if st.button("Submeter Cadastro"):
-        salvar_dados_juridica(razao_social, cnpj, contrato_estatuto, arquivo_documento_empresa, comprovante_endereco_empresa, documentacao_contabil, arquivos_contabeis, nome_representante, cpf_representante, documento_representante, arquivo_documento_representante, inscricao_estadual)
+        salvar_dados_juridica(razao_social, cnpj, contrato_estatuto, arquivo_documento_empresa, comprovante_endereco_empresa, documentacao_contabil, arquivos_contabeis, nome_representante, cpf_representante, documento_representante, arquivo_documento_representante, selfie_sem_documento_representante, selfie_com_documento_representante, comprovante_residencia_representante, inscricao_estadual)
         st.session_state.submitted = True
         st.experimental_rerun()
 
@@ -156,7 +160,6 @@ def cadastro_pessoa_juridica_conta():
     comprovante_endereco_empresa = st.file_uploader("Comprovante de Endereço", type=["pdf", "jpg", "jpeg", "png"], key="comprovante_endereco_empresa_pj_ac")
     documentacao_contabil = st.selectbox("Documentação Contábil", ["Balanço", "DRE", "Faturamento"], key="documentacao_contabil_pj_ac")
     arquivos_contabeis = st.file_uploader("Anexar Documentos Contábeis", type=["pdf", "jpg", "jpeg", "png"], accept_multiple_files=True, key="arquivos_contabeis_pj_ac")
-    
     nome_representante = st.text_input("Nome Completo do Representante Legal", key="nome_representante_pj_ac")
     cpf_representante = st.text_input("CPF", key="cpf_representante_pj_ac")
     documento_representante = st.selectbox("Documento", ["CNH", "RG", "CPF"], key="documento_representante_pj_ac")
@@ -181,7 +184,6 @@ def cadastro_pessoa_juridica_ambos():
     comprovante_endereco_empresa = st.file_uploader("Comprovante de Endereço", type=["pdf", "jpg", "jpeg", "png"], key="comprovante_endereco_empresa_pj_ambos")
     documentacao_contabil = st.selectbox("Documentação Contábil", ["Balanço", "DRE", "Faturamento"], key="documentacao_contabil_pj_ambos")
     arquivos_contabeis = st.file_uploader("Anexar Documentos Contábeis", type=["pdf", "jpg", "jpeg", "png"], accept_multiple_files=True, key="arquivos_contabeis_pj_ambos")
-    
     nome_representante = st.text_input("Nome Completo do Representante Legal", key="nome_representante_pj_ambos")
     cpf_representante = st.text_input("CPF", key="cpf_representante_pj_ambos")
     documento_representante = st.selectbox("Documento", ["CNH", "RG", "CPF"], key="documento_representante_pj_ambos")
@@ -224,13 +226,13 @@ def salvar_dados(nome_completo, cpf, documento, arquivo_documento, selfie_sem_do
 
     st.success(f"Cadastro de {nome_completo} salvo com sucesso!")
 
-def salvar_dados_juridica(razao_social, cnpj, contrato_estatuto, arquivo_documento_empresa, comprovante_endereco_empresa, documentacao_contabil, arquivos_contabeis, nome_representante, cpf_representante, documento_representante, inscricao_estadual, comprovante_residencia_representante, arquivo_documento_representante=None, selfie_sem_documento_representante=None, selfie_com_documento_representante=None):
+def salvar_dados_juridica(razao_social, cnpj, contrato_estatuto, arquivo_documento_empresa, comprovante_endereco_empresa, documentacao_contabil, arquivos_contabeis, nome_representante, cpf_representante, documento_representante, arquivo_documento_representante, selfie_sem_documento_representante, selfie_com_documento_representante, comprovante_residencia_representante, inscricao_estadual):
     folder_path = f"/{razao_social}"
 
     # Cria um arquivo de texto com as informações
     dados = (
         f"Razão Social: {razao_social}\nCNPJ: {cnpj}\n"
-        f"Inscrição Estadual: {inscricao_estadual}\ninscrição Estadual: {inscricao_estadual}\n"
+        f"Inscrição Estadual: {inscricao_estadual}\n"
         f"Contrato ou Estatuto da empresa: {contrato_estatuto}\n"
         f"Documentação Contábil: {documentacao_contabil}\n"
         f"Nome Completo do Representante Legal: {nome_representante}\n"
