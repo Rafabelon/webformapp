@@ -9,7 +9,7 @@ def refresh_access_token():
     app_key = st.secrets["dropbox"]["app_key"]
     app_secret = st.secrets["dropbox"]["app_secret"]
     
-    token_url = "https://api.dropbox.com/oauth2/token"
+    token_url = "https://cadastrozeit.streamlit.app/"
     data = {
         "grant_type": "refresh_token",
         "refresh_token": refresh_token,
@@ -25,8 +25,6 @@ def refresh_access_token():
     new_tokens = response.json()
     
     # Retorna o novo token de acesso #
-    print(new_tokens)
-    print(new_tokens['access_token'])
     return new_tokens['access_token']
 
 # Função para autenticar no Dropbox
