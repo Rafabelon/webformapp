@@ -224,7 +224,7 @@ def salvar_dados(nome_completo, cpf, documento, arquivo_documento, selfie_sem_do
 
     st.success(f"Cadastro de {nome_completo} salvo com sucesso!")
 
-def salvar_dados_juridica(razao_social, cnpj, contrato_estatuto, arquivo_documento_empresa, comprovante_endereco_empresa, documentacao_contabil, arquivos_contabeis, nome_representante, cpf_representante, documento_representante, inscricao_estadual, arquivo_documento_representante=None, selfie_sem_documento_representante=None, selfie_com_documento_representante=None, comprovante_residencia_representante=None):
+def salvar_dados_juridica(razao_social, cnpj, contrato_estatuto, arquivo_documento_empresa, comprovante_endereco_empresa, documentacao_contabil, arquivos_contabeis, nome_representante, cpf_representante, documento_representante, inscricao_estadual, comprovante_residencia_representante, arquivo_documento_representante=None, selfie_sem_documento_representante=None, selfie_com_documento_representante=None):
     folder_path = f"/{razao_social}"
 
     # Cria um arquivo de texto com as informações
